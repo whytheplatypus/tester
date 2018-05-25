@@ -14,10 +14,24 @@ import (
 	"github.com/whytheplatypus/tester/assertions"
 )
 
+type StringArrayVar []string
+
+func (av *StringArrayVar) String() string {
+	return ""
+}
+
+func (av *StringArrayVar) Set(s string) error {
+	*av = append(*av, s)
+	return nil
+}
+
 func main() {
+	var test StringArrayVar
 	var verbose bool
 	flag.BoolVar(&verbose, "v", false, "Enable for verbose logging")
+	flag.Var(&test, "t", "a test flag")
 	flag.Parse()
+	fmt.Println(test)
 	tf := flag.Args()
 	if verbose {
 		log.SetFlags(log.Lshortfile | log.LstdFlags)
