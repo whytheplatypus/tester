@@ -39,10 +39,7 @@ func (jsa *JSONSchema) Assert(r *http.Response, args map[string]interface{}) err
 		return err
 	}
 
-	if result.Valid() {
-		fmt.Printf("The document is valid\n")
-	} else {
-		fmt.Printf("The document is not valid. see errors :\n")
+	if !result.Valid() {
 		var s string
 		for _, desc := range result.Errors() {
 			s = fmt.Sprintf("%s\n%s", s, desc)

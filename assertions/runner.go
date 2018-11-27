@@ -3,7 +3,6 @@ package assertions
 import (
 	"context"
 	"fmt"
-	"log"
 	"net/http"
 	"net/http/httputil"
 
@@ -37,9 +36,9 @@ func Parallell(ctx context.Context, t Testable) error {
 				if err := asserter.Assert(res, args); err != nil {
 					resp, _ := httputil.DumpResponse(res, true)
 					req, _ := httputil.DumpRequest(res.Request, true)
-					return fmt.Errorf("%v : %s : %s : %s", ctx.Value(t), err, string(req), string(resp))
+					return fmt.Errorf("------> %v :  %s : FAILED : %s \n Request:\n %s \nResponse:\n %s", ctx.Value(t), asrt, err, string(req), string(resp))
 				}
-				log.Printf("[DEBUG] assertion passed %s %s \n", ctx.Value(t), asrt)
+				fmt.Printf("------> %v : %s : PASSED\n", ctx.Value(t), asrt)
 				return nil
 			}
 		}(asrt, args))
